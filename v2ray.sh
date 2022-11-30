@@ -49,33 +49,37 @@ mv geosite.dat geoip.dat /usr/local/share/v2ray/
 # Set config file
 cat <<EOF >/etc/v2ray/config.json
 {
-    "log": {
-        "loglevel": "warning"
+  "inbounds": [{
+    "port": 30059,
+    "protocol": "vmess",
+    "settings": {
+      "clients": [
+        {
+          "id": "380f1b50-c6cc-4672-9989-5c2f2bf9b9bc",
+          "level": 1,
+          "alterId": 64
+        }
+      ]
     },
-    "inbounds": [
-        {
-            "listen": "0.0.0.0",
-            "port": 443,
-            "protocol": "vmess",
-            "settings": {
-                "clients": [
-                    {
-                        "id": "$UUID",
-                        "alterId": 0
-                    }
-                ],
-                "disableInsecureEncryption": true
-            },
-            "streamSettings": {
-                "network": "ws"
-            }
-        }
-    ],
-    "outbounds": [
-        {
-            "protocol": "freedom"
-        }
-    ]
+    "streamSettings": {
+				"network": "ws"
+			},
+			"sniffing": {
+				"enabled": true,
+				"destOverride": [
+					"http",
+					"tls"
+				]
+			}
+  }],
+  "outbounds": [{
+    "protocol": "freedom",
+    "settings": {}
+  },{
+    "protocol": "blackhole",
+    "settings": {},
+    "tag": "blocked"
+  }]
 }
 EOF
 
